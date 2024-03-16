@@ -1,5 +1,5 @@
 # Serveless API AWS 
-This repository demonstrates a simple project showcasing how to create an API in AWS using Terraform + FastAPI + Pytest + ECR + JWT.
+This repository demonstrates a simple project showcasing how to create an API in AWS using Terraform + FastAPI + Pytest + ECR + JWT + Lambda.
 
 There is a freely accessible endpoint at "/", but all others require authentication using a bearer JWT.
 
