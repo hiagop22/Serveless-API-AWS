@@ -8,8 +8,11 @@ phases:
       - REPOSITORY_URI=${account_id}.dkr.ecr.us-east-1.amazonaws.com/${repo_name}
   build:
     commands:
+      - cd api
+      - pip install pytest
+      - pip install -r requirements.txt
       - echo Testing the image
-      - cd test
+      - cd ../test
       - pytest || export PYTEST_FAILED=true
       - '[ $PYTEST_FAILED -eq 1 ] || exit 1' # raise failure and stop build
       - echo Build started on `date`
@@ -25,8 +28,8 @@ phases:
   post_build:
     commands:
       - |
-        #!/bin/bash
-        if [[$CODEBUILD_BUILD_SUCCEEDING -eq 1 ]]; then
+        #!/bin/bash 
+        if [ $CODEBUILD_BUILD_SUCCEEDING == "0" ]; then
           # Avoid infinite loop in rollback
           if git tag --list "rollback-*" | grep -q "rollback-$(git rev-parse HEAD)"; then
               echo "Already reverted and tagged, skipping...";

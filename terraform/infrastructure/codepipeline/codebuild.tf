@@ -47,7 +47,7 @@ resource "aws_codepipeline" "cicd_pipeline" {
         FullRepositoryId     = var.respository_id
         BranchName           = var.branch
         ConnectionArn        = var.codestar_connector_credentials
-        OutputArtifactFormat = "CODE_ZIP"
+        OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
     }
   }
