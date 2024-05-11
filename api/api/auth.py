@@ -3,6 +3,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import timedelta, datetime
 from passlib.context import CryptContext
 
+from fastapi import APIRouter
+
 from .models import User, UserInDB, TokenData
 
 from jose import jwt, JWTError
@@ -17,13 +19,13 @@ fake_users_db = {
         "username": "hiago",
         "full_name": "John Doe",
         "email": "hiago@example.com",
-        "hashed_password": "$2b$12$2vxf97EPkyjnl8qYdtvMVOp3Z06Q3ErIeFZQNvB05x9LPVYtm9L5S",
+        "hashed_password": "$2b$12$s8hZstiwH3RihlGj4JwDdOsMbPB3ElADflETfgEIedgf9Vx/cTrCS",
         "disabled": False,
     }
 }
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oath2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oath2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 def get_password_hash(password: str):
     return pwd_context.hash(password)
@@ -89,3 +91,25 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
                             detail="Inactive User")
     
     return current_user
+
+
+router = APIRouter(tags=["token"],
+                   prefix="/auth",
+                   )
+
+@router.post("/token")
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = authenticate_user(fake_users_db, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPERIRE_MINUTES)
+    access_token = create_access_token(
+        data = {"sub": user.username},
+        expires_delta=access_token_expires,
+    )
+
+    return {"access_token": access_token, "token_type": "bearer"}

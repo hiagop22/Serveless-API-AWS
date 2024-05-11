@@ -6,6 +6,7 @@ credentials*
 terraform.tfstate*
 .terraform.lock.hcl
 tfplan.out
+*.tfstate
 
 */deploy.sh
 

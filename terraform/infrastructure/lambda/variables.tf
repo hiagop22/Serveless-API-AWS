@@ -6,7 +6,7 @@ variable "arn_role" {
   type = string
 }
 
-variable "ecr_id" {
+variable "image_id" {
   type = string
 }
 

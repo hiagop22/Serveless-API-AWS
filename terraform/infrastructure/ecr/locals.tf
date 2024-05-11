@@ -7,13 +7,13 @@ resource "null_resource" "image" {
   # CAUTION with blank space before "Dockerfile"
   # Use "Dockerfile" instead of " Dockerfile"
   triggers = {
-    hash = md5(join("-", [for x in fileset("", "${path.module}/../../../app/**") : filemd5(x)]))
+    hash = md5(join("-", [for x in fileset("", "${path.module}/../../../api/**") : filemd5(x)]))
   }
 
   provisioner "local-exec" {
     command = <<EOF
       aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${local.repo_url}
-      docker build --platform linux/amd64 -t ${local.repo_url}:latest ${path.module}/../../app
+      docker build --platform linux/amd64 -t ${local.repo_url}:latest ${path.module}/../../../api
       docker push ${local.repo_url}:latest
     EOF
   }

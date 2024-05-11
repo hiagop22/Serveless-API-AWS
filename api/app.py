@@ -3,17 +3,18 @@ import uvicorn
 from fastapi import FastAPI
 from mangum import Mangum
 
-from api.routers import users, token
+from api.routers import users
+from api import auth
 
 app = FastAPI()
 
 app.include_router(users.router)
-app.include_router(token.router)
+app.include_router(auth.router)
 
 
 @app.get("/")
 async def index():
-    return {"message": "Hello, from aws lambda"}
+    return {"message": "Hello, from aws lambda! Pipeline"}
 
 
 handler = Mangum(app, lifespan="off")
