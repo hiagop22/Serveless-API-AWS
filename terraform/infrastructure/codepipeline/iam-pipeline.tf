@@ -22,6 +22,7 @@ data "aws_iam_policy_document" "tf-pipeline-policies" {
   statement {
     sid       = ""
     actions   = ["codestar-connections:UseConnection"]
+    # actions   = ["codestar-connections:*"]
     resources = ["*"]
     effect    = "Allow"
   }
