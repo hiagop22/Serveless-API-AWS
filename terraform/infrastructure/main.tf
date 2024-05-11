@@ -8,6 +8,7 @@ terraform {
     }
   }
 
+
   backend "s3" {
     bucket         = "test-cicd-tf-ai-api-state"
     key            = "terraform.tfstate"
