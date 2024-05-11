@@ -26,7 +26,8 @@ data "aws_iam_policy_document" "tf-codebuild-policies" {
       "codebuild:*",
       "secretsmanager:*",
       "iam:*",
-      "lambda:*"
+      "lambda:*",
+      "codestar:*",
     ]
     resources = ["*"]
     effect    = "Allow"

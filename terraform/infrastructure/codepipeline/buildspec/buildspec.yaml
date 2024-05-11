@@ -1,4 +1,6 @@
 version: 0.2
+env:
+  git-credential-helper: yes
 phases:
   pre_build:
     commands:
@@ -6,6 +8,8 @@ phases:
       - aws --version
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.us-east-1.amazonaws.com
       - REPOSITORY_URI=${account_id}.dkr.ecr.us-east-1.amazonaws.com/${repo_name}
+      - git config --global user.email "RollBack@pipelineaws.com"
+      - git config --global user.name "Rollback AWS"
   build:
     commands:
       - cd api
@@ -28,16 +32,17 @@ phases:
   post_build:
     commands:
       - |
+        - |
         #!/bin/bash 
         if [ $CODEBUILD_BUILD_SUCCEEDING == "0" ]; then
           # Avoid infinite loop in rollback
-          if git tag --list "rollback-*" | grep -q "rollback-$(git rev-parse HEAD)"; then
+          commit_message=$(git log -1 --pretty=%B);
+          if [[ $commit_message == Revert* ]]; then
               echo "Already reverted and tagged, skipping...";
           else
             echo "Reverting to previous commit...";
             git revert HEAD --no-edit;
-            git tag "rollback-$(git rev-parse HEAD)";
-            git push origin master --tags;  
+            git push origin master;
           fi
         fi
       - echo Post_build execution continues
