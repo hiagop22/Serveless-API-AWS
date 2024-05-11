@@ -17,8 +17,8 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
-      - printf '[{"name":"devops","imageUri":"%s"}]'    $REPOSITORY_URI:latest > imagedefinitions.json
       - aws cli update-function-code --function-name ${lambda_name} --image-uri $REPOSITORY_URI:latest
-  artifacts:
-    files:
-      - imagedefinitions.json
+      # - printf '[{"name":"devops","imageUri":"%s"}]'    $REPOSITORY_URI:latest > imagedefinitions.json
+  # artifacts:
+  #   files:
+  #     - imagedefinitions.json

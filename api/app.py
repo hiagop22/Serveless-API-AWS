@@ -14,7 +14,7 @@ app.include_router(auth.router)
 
 @app.get("/")
 async def index():
-    return {"message": "Hello, from aws lambda! Pipeline"}
+    return {"message": "Hello, from aws lambda! Pipeline V2"}
 
 
 handler = Mangum(app, lifespan="off")
