@@ -3,7 +3,7 @@ variable "environment" {
 }
 
 variable "tag" {
-  type = string
+  type    = string
   default = "app"
 }
 

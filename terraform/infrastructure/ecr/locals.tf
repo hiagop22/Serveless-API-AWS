@@ -1,5 +1,5 @@
 locals {
-  repo_url = aws_ecr_repository.api.repository_url
+  repo_url   = aws_ecr_repository.api.repository_url
   image_tags = jsondecode(data.external.image_tags.result.tags)
 }
 
@@ -7,7 +7,7 @@ resource "null_resource" "image" {
   # CAUTION with blank space before "Dockerfile"
   # Use "Dockerfile" instead of " Dockerfile"
   triggers = {
-    hash = md5(join("-", [for x in fileset("", "${path.module}/../../app/{*.py,Dockerfile}") : filemd5(x)]))
+    hash = md5(join("-", [for x in fileset("", "${path.module}/../../../app/**") : filemd5(x)]))
   }
 
   provisioner "local-exec" {
