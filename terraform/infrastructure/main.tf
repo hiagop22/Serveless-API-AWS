@@ -57,7 +57,9 @@ module "codepipeline" {
   branch                         = "master"
   account_id                     = local.account_id
   ecr_repo_name                  = module.ecr.repo_name
+  ecr_repo_arn                   = module.ecr.repo_arn
   lambda_name                    = module.lambda.name
+  lambda_arn                     = module.lambda.api_arn
 }
 
 

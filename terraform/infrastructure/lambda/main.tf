@@ -1,11 +1,11 @@
 resource "aws_lambda_function" "api" {
   function_name = "lambda-tf-ai-api-${var.environment}"
 
-  role = var.arn_role
+  role             = var.arn_role
   image_uri        = "${var.ecr_repo_url}:latest"
   package_type     = "Image"
   source_code_hash = trimprefix(var.image_id, "sha256:")
-  timeout = 60
+  timeout          = 60
 
   environment {
     variables = {}

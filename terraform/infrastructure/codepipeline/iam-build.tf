@@ -20,10 +20,49 @@ resource "aws_iam_role" "tf-codebuild-role" {
 
 data "aws_iam_policy_document" "tf-codebuild-policies" {
   statement {
-    sid       = ""
-    actions   = ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*", "iam:*"]
+    sid = "1"
+    actions = ["logs:*",
+      "s3:*",
+      "codebuild:*",
+      "secretsmanager:*",
+      "iam:*",
+      "lambda:*"
+    ]
     resources = ["*"]
     effect    = "Allow"
+  }
+
+  statement {
+    sid = "2"
+    actions = [
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:BatchGetImage",
+      "ecr:CompleteLayerUpload",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:InitiateLayerUpload",
+      "ecr:PutImage",
+      "ecr:UploadLayerPart",
+    ]
+    resources = [var.ecr_repo_arn]
+    effect    = "Allow"
+  }
+
+  statement {
+    sid = "3"
+    actions = [
+      "ecr:GetAuthorizationToken",
+    ]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+
+  statement {
+    sid     = "4"
+    actions = ["lambda:UpdateFunctionCode"]
+    effect  = "Allow"
+    resources = [
+      var.lambda_arn
+    ]
   }
 }
 

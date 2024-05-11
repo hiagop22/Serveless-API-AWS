@@ -13,3 +13,7 @@ output "repo_name" {
 output "image_tags" {
   value = local.image_tags
 }
+
+output "repo_arn" {
+  value = aws_ecr_repository.api.arn
+}

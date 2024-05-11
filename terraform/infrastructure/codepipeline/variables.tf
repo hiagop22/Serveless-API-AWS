@@ -27,6 +27,14 @@ variable "ecr_repo_name" {
   type = string
 }
 
+variable "ecr_repo_arn" {
+  type = string
+}
+
 variable "lambda_name" {
+  type = string
+}
+
+variable "lambda_arn" {
   type = string
 }
