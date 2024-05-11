@@ -29,7 +29,7 @@ def header_auth(api_credentials, client):
     username = api_credentials["username"]
     password = api_credentials["password"]
         
-    response = client.post("/token",
+    response = client.post("/auth/token",
                             data={"username": username,
                                     "password": password},
                                     )

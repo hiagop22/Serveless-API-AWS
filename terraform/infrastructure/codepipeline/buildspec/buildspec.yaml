@@ -6,19 +6,36 @@ phases:
       - aws --version
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.us-east-1.amazonaws.com
       - REPOSITORY_URI=${account_id}.dkr.ecr.us-east-1.amazonaws.com/${repo_name}
-      - cd api
   build:
     commands:
+      - echo Testing the image
+      - cd test
+      - pytest || export PYTEST_FAILED=true
+      - '[ $PYTEST_FAILED -eq 1 ] || exit 1' # raise failure and stop build
       - echo Build started on `date`
       - echo Building the Docker image
+      - cd ../api
       - docker build -t $REPOSITORY_URI:latest .
-  post_build:
-    commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
       - aws lambda update-function-code --function-name ${lambda_name} --image-uri $REPOSITORY_URI:latest
-      # - printf '[{"name":"devops","imageUri":"%s"}]'    $REPOSITORY_URI:latest > imagedefinitions.json
-  # artifacts:
-  #   files:
-  #     - imagedefinitions.json
+      
+  # The PostBuild phase is executed even if the Build phase fails
+  post_build:
+    commands:
+      - |
+        #!/bin/bash
+        if [[$CODEBUILD_BUILD_SUCCEEDING -eq 1 ]]; then
+          # Avoid infinite loop in rollback
+          if git tag --list "rollback-*" | grep -q "rollback-$(git rev-parse HEAD)"; then
+              echo "Already reverted and tagged, skipping...";
+          else
+            echo "Reverting to previous commit...";
+            git revert HEAD --no-edit;
+            git tag "rollback-$(git rev-parse HEAD)";
+            git push origin master --tags;  
+          fi
+        fi
+      - echo Post_build execution continues
+

@@ -2,9 +2,10 @@ resource "aws_codebuild_project" "main" {
   name         = "tf-cicd-build"
   description  = "Apply stage for terraform"
   service_role = aws_iam_role.tf-codebuild-role.arn
-
+  
   artifacts {
     type = "CODEPIPELINE"
+    
   }
 
   environment {
@@ -25,7 +26,7 @@ resource "aws_codebuild_project" "main" {
 }
 
 resource "aws_codepipeline" "cicd_pipeline" {
-  name     = "tf-cicd"
+  name     = "tf-cicd"  
   role_arn = aws_iam_role.tf-pipeline-role.arn
 
   artifact_store {
@@ -47,6 +48,25 @@ resource "aws_codepipeline" "cicd_pipeline" {
         BranchName           = var.branch
         ConnectionArn        = var.codestar_connector_credentials
         OutputArtifactFormat = "CODE_ZIP"
+      }
+    }
+  }
+
+  stage {
+    name = "Manual-Approval"
+
+    action {
+      run_order = 1
+      name             = "AWS-Admin-Approval"
+      category         = "Approval"
+      owner            = "AWS"
+      provider         = "Manual"
+      version          = "1"
+      input_artifacts  = []
+      output_artifacts = []
+
+      configuration = {
+        CustomData = "Please verify if it is a desired deploy!"
       }
     }
   }
