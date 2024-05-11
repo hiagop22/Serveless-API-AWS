@@ -20,7 +20,7 @@ resource "aws_codebuild_project" "tf-plan" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("buildspec/plan-buildspec.yaml")
+    buildspec = file("${path.module}/buildspec/plan-buildspec.yaml")
   }
 }
 
@@ -46,7 +46,7 @@ resource "aws_codebuild_project" "tf-apply" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("buildspec/apply-buildspec.yaml")
+    buildspec = file("${path.module}/buildspec/apply-buildspec.yaml")
   }
 }
 
