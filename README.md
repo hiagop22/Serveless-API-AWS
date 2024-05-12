@@ -1,5 +1,5 @@
 # Serveless API AWS 
-This repository demonstrates a simple project showcasing how to create an API in AWS using Terraform + FastAPI + Pytest + ECR + JWT + Lambda + CI/CD Pipeline with manual approve and rollback in case of failure.
+This repository demonstrates a simple project showcasing how to create an API in AWS using Terraform + FastAPI + Pytest + Docker + JWT + Lambda + CI/CD Pipeline with manual approve and rollback in failure case.
 
 There is a freely accessible endpoint at "/", but all others require authentication using a bearer JWT.
 
@@ -40,6 +40,15 @@ Finally, provision all coded infrastructure using:
 ```shell
 $ terraform apply
 ```
+
+### Manual Approve
+Go to the AWS console and access the CodePipeline. In the Approval stage, review the information and proceed with the autorization or denial the pipeline to update the API.
+
+
+## Failure cases
+If the pipeline failure in the build stage, for example, during the tests, it will revert the commit and push it back to github in order to activate another pipeline with an older version.
+
+If the second pipeline also fails, the execution will be terminated, and no further attempts will be made to run another one.
 
 ### Updates in API (REDEPLOY)
 The `plan` and `apply` commands of Terraform automatically verify updates in the api code and redeploy them as a new version to the ECR as the latest image to be used by Lambda. 
