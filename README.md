@@ -41,6 +41,8 @@ Finally, provision all coded infrastructure using:
 $ terraform apply
 ```
 
+The API is deployed during this apply stage, but subsequent updates ocurring  automatically every time a new push is made to github in branch master.
+
 ### Manual Approve
 Go to the AWS console and access the CodePipeline. In the Approval stage, review the information and proceed with the autorization or denial the pipeline to update the API.
 
