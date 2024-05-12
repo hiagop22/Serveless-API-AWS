@@ -13,8 +13,8 @@ phases:
   build:
     commands:
       - cd api
-      # - pip install pytest
-      # - pip install -r requirements.txt
+      - pip install pytest
+      - pip install -r requirements.txt
       - echo Testing the image
       - cd ../test
       - pytest || export PYTEST_FAILED=true
