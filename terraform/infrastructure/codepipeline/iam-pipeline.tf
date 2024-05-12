@@ -20,14 +20,14 @@ resource "aws_iam_role" "tf-pipeline-role" {
 
 data "aws_iam_policy_document" "tf-pipeline-policies" {
   statement {
-    sid       = ""
+    sid       = "2022"
     actions   = ["codestar-connections:UseConnection"]
     # actions   = ["codestar-connections:*"]
     resources = ["*"]
     effect    = "Allow"
   }
   statement {
-    sid       = ""
+    sid       = "2021"
     actions   = ["cloudwatch:*", "s3:*", "codebuild:*"]
     resources = ["*"]
     effect    = "Allow"

@@ -65,6 +65,16 @@ data "aws_iam_policy_document" "tf-codebuild-policies" {
       var.lambda_arn
     ]
   }
+
+  statement {
+    sid       = "5"
+    actions   = ["codestar-connections:UseConnection",
+                  # "codecodestar-connections:ProviderAction",
+                  ]
+    # actions   = ["codestar-connections:*"]
+    resources = ["*"]
+    effect    = "Allow"
+  }
 }
 
 resource "aws_iam_policy" "tf-codebuild-policy" {

@@ -13,8 +13,8 @@ phases:
   build:
     commands:
       - cd api
-      - pip install pytest
-      - pip install -r requirements.txt
+      # - pip install pytest
+      # - pip install -r requirements.txt
       - echo Testing the image
       - cd ../test
       - pytest || export PYTEST_FAILED=true
@@ -32,16 +32,20 @@ phases:
   post_build:
     commands:
       - |
-        - |
         #!/bin/bash 
         if [ $CODEBUILD_BUILD_SUCCEEDING == "0" ]; then
           # Avoid infinite loop in rollback
           commit_message=$(git log -1 --pretty=%B);
           if [[ $commit_message == Revert* ]]; then
-              echo "Already reverted and tagged, skipping...";
+              echo "Already reverted, skipping...";
           else
+            git remote -v
+            git branch -a
             echo "Reverting to previous commit...";
             git revert HEAD --no-edit;
+            git checkout -b temp;
+            git branch -f master temp;
+            git branch -d temp;
             git push origin master;
           fi
         fi
