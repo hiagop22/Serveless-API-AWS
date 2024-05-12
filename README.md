@@ -1,5 +1,5 @@
 # Serveless API AWS 
-This repository demonstrates a simple project showcasing how to create an API in AWS using Terraform + FastAPI + Pytest + Docker + JWT + Lambda + CI/CD Pipeline with manual approve and rollback in failure case.
+This repository demonstrates a simple project showcasing how to create an API in AWS using Terraform + FastAPI + Swagger Docs + Pytest + Docker + JWT + Lambda + CI/CD Pipeline with manual approve, automatic tests  and rollback in failure case.
 
 There is a freely accessible endpoint at "/", but all others require authentication using a bearer JWT.
 
