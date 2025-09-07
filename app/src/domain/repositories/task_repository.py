@@ -2,9 +2,9 @@ from abc import ABC, abstractmethod
 from typing import Any
 from uuid import UUID
 
-from src.domain.entities.task import Task
+from app.src.domain.entities.task import Task
 
-class TaskRepositoryInterface(ABC):
+class TaskRepository(ABC):
   @abstractmethod
   async def get(self, **filters: Any) -> Task | None:
     pass

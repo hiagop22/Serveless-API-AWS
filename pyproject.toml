@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "api"
+name = "app"
 version = "0.1.0"
 description = ""
 authors = ["Hiago Rabelo <hiago.rabelo@objective.com.br>"]
@@ -16,6 +16,8 @@ python-multipart = "^0.0.20"
 [tool.poetry.group.dev.dependencies]
 pytest-mock = "^3.14.1"
 pytest = "^8.4.1"
+pytest-asyncio = "^1.1.0"
+pytest-cov = "^6.3.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -1,20 +1,20 @@
-from typing import Any
 from uuid import UUID
-from src.domain.repositories.task_repository import TaskRepositoryInterface
-from src.domain.entities.task import Task
+from typing import Any, List
+from app.src.domain.repositories.task_repository import TaskRepository
+from app.src.domain.entities.task import Task
 
 
-class InMemoryTaskRepository(TaskRepositoryInterface):
+class InMemoryTaskRepository(TaskRepository):
   def __init__(self) -> None:
     self._tasks: dict[str, Task] = {}
 
-  async def get(self, **filters: Any) -> Task:
+  async def get(self, **filters: Any) -> Task | None:
     for task in self._tasks.values():
       if all(getattr(task, key, None) == value for key, value in filters.items()):
         return task
 
     return None
-
+  
   async def list(self, **filters: Any) -> list[Task]:
     if not filters:
       return list(self._tasks.values())
@@ -36,3 +36,7 @@ class InMemoryTaskRepository(TaskRepositoryInterface):
   async def delete(self, task_id: UUID) -> None:
     if task_id in self._tasks:
       del self._tasks[task_id]
+
+  async def seed(self, tasks: List[Task]) -> None:
+    for task in tasks:
+      self._tasks[task.id] = task
