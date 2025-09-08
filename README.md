@@ -118,4 +118,5 @@ This project was designed to practice serverless architectures, infrastructure a
 
 ```bash
 poetry run pytest --cov=app --cov-report=html --cov-fail-under=90
+poetry run uvicorn app.src.drivers.rest.main:app --reload --port 8090
 ```
