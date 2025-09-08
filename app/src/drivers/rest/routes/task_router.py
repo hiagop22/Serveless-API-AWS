@@ -1,9 +1,9 @@
 from uuid import UUID
 from typing import Annotated, List
 from fastapi import APIRouter, Depends, status
-from app.src.domain.entities.task import Task
+from motor.motor_asyncio import AsyncIOMotorClient
 from app.src.drivers.rest.schemas.task import TaskOutput, TaskInput
-from app.src.adapters.repositories.in_memory_task_repository import InMemoryTaskRepository
+from app.src.adapters.repositories.mongo_task_repository import MongoTaskRepository
 from app.src.domain.repositories.task_repository import TaskRepository
 from app.src.use_cases.create_task_use_case import CreateTaskUseCase
 from app.src.use_cases.detail_task_use_case import DetailTaskUseCase
@@ -11,8 +11,11 @@ from app.src.use_cases.list_task_use_case import ListTaskUseCase
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 
-def get_repository() -> TaskRepository:
-  return InMemoryTaskRepository()
+def get_mongo_client() -> AsyncIOMotorClient:
+  return AsyncIOMotorClient("mongodb://localhost:27017")
+
+def get_repository(mongo_client = Depends(get_mongo_client)) -> TaskRepository:
+  return MongoTaskRepository(mongo_client)
 
 def create_task_use_case(repository = Depends(get_repository)) -> CreateTaskUseCase:
   return CreateTaskUseCase(repository)
