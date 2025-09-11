@@ -1,10 +1,10 @@
 import uuid
 import pytest
-from app.src.adapters.repositories.in_memory_task_repository import InMemoryTaskRepository
-from app.src.domain.entities.task import Task
-from app.src.domain.repositories.task_repository import TaskRepository
-from app.src.domain.exceptions.task_not_found import TaskNotFound
-from app.src.use_cases.detail_task_use_case import DetailTaskUseCase
+from src.adapters.repositories.in_memory_task_repository import InMemoryTaskRepository
+from src.domain.entities.task import Task
+from src.domain.repositories.task_repository import TaskRepository
+from src.domain.exceptions.task_not_found import TaskNotFound
+from src.use_cases.detail_task_use_case import DetailTaskUseCase
 
 @pytest.fixture
 def repo() -> TaskRepository:

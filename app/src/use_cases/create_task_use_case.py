@@ -1,7 +1,7 @@
 from uuid import uuid4
-from app.src.domain.entities.task import Task
-from app.src.domain.repositories.task_repository import TaskRepository
-from app.src.domain.exceptions.task_not_found import TaskNotFound
+from src.domain.entities.task import Task
+from src.domain.repositories.task_repository import TaskRepository
+from src.domain.exceptions.task_not_found import TaskNotFound
 
 class CreateTaskUseCase:
   def __init__(self, task_repository: TaskRepository):

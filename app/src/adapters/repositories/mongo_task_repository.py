@@ -3,9 +3,9 @@ from typing import Any
 from datetime import datetime
 from bson.binary import Binary, UUID_SUBTYPE
 from motor.motor_asyncio import AsyncIOMotorClient
-from app.src.domain.repositories.task_repository import TaskRepository
-from app.src.domain.entities.task import Task
-from app.src.domain.exceptions.task_not_found import TaskNotFound
+from src.domain.repositories.task_repository import TaskRepository
+from src.domain.entities.task import Task
+from src.domain.exceptions.task_not_found import TaskNotFound
 
 
 class MongoTaskRepository(TaskRepository):

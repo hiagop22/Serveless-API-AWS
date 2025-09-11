@@ -1,7 +1,7 @@
 from uuid import UUID
 from typing import Any, List
-from app.src.domain.entities.task import Task
-from app.src.domain.repositories.task_repository import TaskRepository
+from src.domain.entities.task import Task
+from src.domain.repositories.task_repository import TaskRepository
 
 class ListTaskUseCase:
   def __init__(self, task_repository: TaskRepository):

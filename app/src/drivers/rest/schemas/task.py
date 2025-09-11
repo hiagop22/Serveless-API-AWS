@@ -2,7 +2,7 @@ from uuid import UUID, uuid4
 from dataclasses import field
 from typing import Optional
 from pydantic import BaseModel
-from app.src.domain.entities.task import Task
+from src.domain.entities.task import Task
 from datetime import datetime, timezone
 
 

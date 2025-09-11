@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any
 from uuid import UUID
 
-from app.src.domain.entities.task import Task
+from src.domain.entities.task import Task
 
 class TaskRepository(ABC):
   @abstractmethod

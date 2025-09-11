@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
-from app.src.domain.exceptions.task_not_found import TaskNotFound
+from src.domain.exceptions.task_not_found import TaskNotFound
 
 def handle_errors(exc: Exception) -> JSONResponse:
   if hasattr(exc, "status_code") and hasattr(exc, "name") and hasattr(exc, "message"):

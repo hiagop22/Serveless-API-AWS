@@ -2,10 +2,10 @@ import pytest
 from uuid import uuid4
 import datetime
 from datetime import datetime, timezone
-from app.src.domain.entities.task import Task
-from app.src.adapters.repositories.in_memory_task_repository import InMemoryTaskRepository
-from app.src.domain.repositories.task_repository import TaskRepository
-from app.src.use_cases.list_task_use_case import ListTaskUseCase
+from src.domain.entities.task import Task
+from src.adapters.repositories.in_memory_task_repository import InMemoryTaskRepository
+from src.domain.repositories.task_repository import TaskRepository
+from src.use_cases.list_task_use_case import ListTaskUseCase
 
 @pytest.fixture
 def repo() -> TaskRepository:
