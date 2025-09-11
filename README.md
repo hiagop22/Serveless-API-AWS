@@ -116,3 +116,7 @@ This project was designed to practice serverless architectures, infrastructure a
 - Writing automated test suites with Pytest
 - Deploying serverless APIs using Docker multi-stage builds
 
+```bash
+poetry run pytest --cov=app --cov-report=html --cov-fail-under=90
+poetry run uvicorn app.src.drivers.rest.main:app --reload --port 8090
+```
